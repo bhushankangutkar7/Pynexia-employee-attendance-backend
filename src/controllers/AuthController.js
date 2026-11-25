@@ -40,7 +40,7 @@ const login = async ( req, res, next ) => {
     });
 
   } catch(err) {
-    console.error(`Login error: ${err.message}`);
+    console.error(`Login error: ${err.name} - ${err.message}`);
     next(err);
   };
 };

@@ -60,8 +60,8 @@ AttendanceSchema.virtual(
 );
 
 AttendanceSchema.pre('validate', async function () {
-  if (this.isNew && !this.emId) {
-    this.emId = await genNextSequence('emId', this.$session());
+  if (this.isNew && !this.AttendanceId) {
+    this.AttendanceId = await genNextSequence('AttendanceId', this.$session());
   };
 });
 

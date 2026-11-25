@@ -70,6 +70,39 @@ const globalErrorHandler = (err, req, res, next) => {
     });
   };
 
+  // JWT errors
+  if (
+    err.name === 'JsonWebTokenError' ||
+    err.name === 'TokenExpiredError' ||
+    err.name === 'NotBeforeError'
+  ) {
+    console.error(`JWT error: ${err.message}`);
+
+    return res.status(401).json({
+      status: 401,
+      success: false,
+      message: 'Unauthorized! Invalid or expired authentication token',
+      data: null,
+    });
+  };
+
+  // Bcrypt errors
+  // Bcrypt does not provide a consistent dedicated error class.
+  // Unexpected bcrypt exceptions should be treated as server errors.
+  if (
+    err.name === 'Error' &&
+    /bcrypt/i.test(err.stack || '')
+  ) {
+    console.error(`Bcrypt error: ${err.message}`);
+
+    return res.status(500).json({
+      status: 500,
+      success: false,
+      message: 'Internal Server Error',
+      data: null,
+    });
+  };
+
   console.error( err.message || 'Internal Server Error' );
 
   return res.status(Number(statusCode)).json({

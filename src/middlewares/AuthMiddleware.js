@@ -12,24 +12,25 @@ export const isAdmin = async( req, res, next) => {
     if (!token) {
       const err = new Error('Authentication token in missing');
       err.statusCode = 400;
-      next(err);
+      throw err;
     };
 
-    const decodedToken = decodeToken(token);
+    const decodedToken = decodeToken(token);    
     
     if (!decodedToken._id || !decodedToken.emId) {
       const err = new Error('Invalid token');
-      err.statusCode = 401
+      err.statusCode = 401;
+      throw err
     };
 
     const admin = await Employee.findOne({
       _id: decodedToken._id
     });
 
-    if (!admin) {
+    if (!admin || admin.isActive !== true || admin.role !== 'admin') {
       const err = new Error('User not found or account is Inactive');
       err.statusCode = 403;
-      next(err);
+      throw err;
     };
 
     const adminObj = admin.toObject ? admin.toObject() : admin.toJSON();
