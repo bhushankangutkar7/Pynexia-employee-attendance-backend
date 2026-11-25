@@ -21,10 +21,6 @@ app.use(express.urlencoded({
 }));
 app.use(cors());
 
-app.get('/', ( req, res ) => {
-  res.send("Hello World");
-});
-
 app.use('/api/v1/admin/auth', authRoutes);
 app.use('/api/v1/admin/employees', adminRouter);
 

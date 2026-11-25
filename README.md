@@ -45,7 +45,6 @@ The admin routes also verify that the account is active and has the `admin` role
 
 | Method | Path | Auth | Description |
 | --- | --- | --- | --- |
-| `GET` | `/` | No | Basic server response (`Hello World`). |
 | `POST` | `/api/v1/admin/auth/login` | No | Log in and receive an access token. |
 | `GET` | `/api/v1/admin/employees` | Admin | List active employees. |
 | `GET` | `/api/v1/admin/employees/:id` | Admin | Get an active employee by numeric `emId`. |
